@@ -8,7 +8,7 @@ function Coinlist(){
   let i=0;
   console.log(info);
   const list=info.map((c,index)=>{  
-    if(/^KRW-/.test(c.market)&&i<10){//원화/BTC/USD 정규식으로 state,page 나눠서 보여주기
+    if(/^USDT-/.test(c.market)&&i<10){//원화/BTC/USD 정규식으로 state,page 나눠서 보여주기
       i+=1;
       return <Coininfo key={c.market} info={info[index]}></Coininfo>
     }

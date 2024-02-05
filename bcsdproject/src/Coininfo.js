@@ -22,7 +22,7 @@ function Coininfo({info}){//코인 정보 한줄
         }
       ,[]);
     return(
-        <div>
+        <div className="coinList">
             <div>{info.korean_name}</div>
             <div>{priceInfo.trade_price}</div>
         </div>
