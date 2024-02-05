@@ -2,14 +2,15 @@ import './App.css';
 import axios from 'axios';
 import { Router } from 'react-router-dom';
 import Coinlist from './Coinlist';
+import Topbar from './Topbar';
 import { useRecoilState } from 'recoil';
-import { infoState } from './atom';
+import { marketState } from './atom';
 import { useEffect } from 'react';
 
 function App() {
-  const [info,setInfo]=useRecoilState(infoState);
+  const [info,setInfo]=useRecoilState(marketState);
   async function getCoin(){
-    await axios	// 코인 데이터를 가져오기 위해 axios 사용
+    await axios	
     .request({
       method: 'GET',
       url: 'https://api.upbit.com/v1/market/all?isDetails=false',
@@ -25,6 +26,7 @@ function App() {
   
   return (
     <div className="App">
+      <Topbar></Topbar>
       <Coinlist></Coinlist>
     </div>
   );

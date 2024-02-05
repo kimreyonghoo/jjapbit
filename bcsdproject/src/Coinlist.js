@@ -1,21 +1,27 @@
 import React from "react";
 import Coininfo from "./Coininfo";
-import { useRecoilState } from "recoil";
-import { infoState } from "./atom";
+import { useRecoilState,useRecoilValue } from "recoil";
+import { marketState, marketSelector } from "./atom";
 
 function Coinlist(){
-  const [info,setInfo]=useRecoilState(infoState);
-  let i=0;
+  const [info,setInfo]=useRecoilState(marketState);
   console.log(info);
-  const list=info.map((c,index)=>{  
-    if(/^USDT-/.test(c.market)&&i<10){//원화/BTC/USD 정규식으로 state,page 나눠서 보여주기
-      i+=1;
-      return <Coininfo key={c.market} info={info[index]}></Coininfo>
-    }
+  let unit=`BTC`;
+  const filteredMarket = useRecoilValue(marketSelector(unit));
+  console.log(filteredMarket);
+  const list=filteredMarket.map((c,index)=>{  
+   //원화/BTC/USD 정규식으로 state,page 나눠서 보여주기
+    return <Coininfo key={c.market} info={filteredMarket[index]}></Coininfo>
   });
   return (
     <div>
-        {list}
+      <div style={{
+        display:`flex`,
+        border:`0.5px solid`,
+        flexDirection:`column`,
+        alignItems:`center`
+    }}>{list}</div>
+        
     </div>
   );
 }
