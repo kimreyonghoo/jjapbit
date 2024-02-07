@@ -1,32 +1,25 @@
 import React, { useState,useEffect } from "react";
-import axios from "axios";
+import { useRecoilState } from "recoil";
 
-function Coininfo({info}){//코인 정보 한줄
-  const ticker=info.market;
-  const [priceInfo, setPriceInfo] = useState({});
-  /*async function getPrice(){   
-    await axios	
-      .request({
-        method: 'GET',
-        url: 'https://api.upbit.com/v1/ticker?markets=KRW-BTC%2CKRW-BTC' ,
-        header: {accept: 'application/json'}
-      })
-      .then((response)=>{
-          setPriceInfo(response.data[0]);
-          console.log(response);
-          })
-      .catch((error)=>(console.log(error)))
+function Coininfo({info,price}){//코인 정보 한줄
+  if(price){
+    let tardeVolume=price.acc_trade_price_24h;
+    if(tardeVolume>=1000000){
+      tardeVolume=Math.floor(price.acc_trade_price_24h/1000000);
     }
-    useEffect(
-      ()=>{
-          getPrice()
-      }
-    ,[]);*/
-  return(
-      <div className="coinList">
+    return(
+      <div className="coinList" style={{
+        display:`flex`,
+        flexDirection:`row`,
+        justifyContent:`space-between`,
+        width:`800px`,
+        backgroundColor:`#cbcbcb`
+      }}>
           <div>{info.korean_name}</div>
-          <div>{priceInfo.trade_price}</div>
-      </div>
-  );
+          <div>{price.trade_price.toLocaleString()} {price.market.substr(0,3)}</div>
+          <div>{tardeVolume.toLocaleString()} 백만</div>
+     </div>
+    );
+  }
 }
 export default Coininfo;
