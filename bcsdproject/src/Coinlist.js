@@ -3,6 +3,7 @@ import Coininfo from "./Coininfo";
 import { useRecoilState,useRecoilValue } from "recoil";
 import { marketState, marketSelector,tickerState,searchState } from "./atom";
 import axios from "axios";
+import styled from 'styled-components'
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -23,7 +24,42 @@ function useInterval(callback, delay) {
     }
   }, [delay]);
 }
-
+const ListBody=styled.div`
+display:flex;
+flex-direction:column;
+justify-Content:center;
+align-items:center;
+background-color:#1a2a3e;
+`
+const Guides=styled.div`
+display:flex;
+justify-Content:space-between;
+align-items:center;
+width:60vw;
+height:60px;
+border:2px solid #cbcbcb;
+background-Color:#cbcbcb;
+& > * {
+  margin:20px;
+  width:180px;
+}
+`
+const CoinList=styled.div`
+display-flex;
+flex-direction:column;
+justify-Content:center;
+align-items:center;
+`
+const UnitBtn=styled.button`
+background: white;
+border: 0px solid
+color: #black;
+margin: 0 1em;
+padding: 0.25;
+&:active{
+  background-color:#cbcbcb;
+}
+`
 function Coinlist(){
 
   const [ticker,setTicker]=useRecoilState(tickerState);
@@ -62,27 +98,29 @@ function Coinlist(){
 
   const interval= useInterval(()=>{
     getPrice();
-  },110);
-
-  useEffect(()=>{
-   
-  },[search])
+  },1000);
  
   return (
-    <div>
+    <ListBody>
       <div>
-        <button onClick={()=>{
+        <UnitBtn onClick={()=>{
           setUnit(`KRW-`);
-        }}>KRW</button>
-        <button onClick={()=>{
+        }}>KRW</UnitBtn>
+        <UnitBtn onClick={()=>{
           setUnit(`USDT-`);
-        }}>USD</button>
-        <button onClick={()=>{
+        }}>USD</UnitBtn>
+        <UnitBtn onClick={()=>{
           setUnit(`BTC-`);
-        }}>BTC</button>
+        }}>BTC</UnitBtn>
       </div>
-      <div>{list}</div>
-    </div>
+      <Guides>
+        <p>이름</p>
+        <p>현재가</p>
+        <p>전일대비</p>
+        <p>거래량</p>
+      </Guides>
+      <CoinList>{list}</CoinList>
+    </ListBody>
   );
 }
 
