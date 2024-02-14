@@ -7,13 +7,10 @@ import styled from 'styled-components'
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();
-
-  // Remember the latest callback.
   useEffect(() => {
     savedCallback.current = callback;
   }, [callback]);
 
-  // Set up the interval.
   useEffect(() => {
     function tick() {
       savedCallback.current();
@@ -43,6 +40,9 @@ background-Color:#cbcbcb;
   margin:20px;
   width:180px;
 }
+& > *:hover {
+  text-decoration: underline;
+}
 `
 const CoinList=styled.div`
 display-flex;
@@ -61,10 +61,11 @@ padding: 0.25;
 }
 `
 function Coinlist(){
-
-  const [ticker,setTicker]=useRecoilState(tickerState);
-  const [price,setPrice]=useState([]);
-  const [unit,setUnit]=useState(``);
+  const [ticker,setTicker]=useRecoilState(tickerState);//가격정보불러오기위한티커
+  const [price,setPrice]=useState([]);//가격정보배열
+  const [unit,setUnit]=useState(``);//단위
+  const [isClicked,setIsClicked]=useState(true);//오름/내림차순
+  const [guideState,setGuideState]=useState(1);
   let filteredMarket = useRecoilValue(marketSelector(unit));
   const [search,setSearch]=useRecoilState(searchState);
   if(search[0]!=``){
@@ -72,13 +73,15 @@ function Coinlist(){
   }
 
   let tickers=``;
-  let list=filteredMarket.map((c,index)=>{
+
+  filteredMarket.map((c,index)=>{
     tickers+=filteredMarket[index].market+`%2c`;  
-    return <Coininfo key={index} info={filteredMarket[index]} price={price[index]}></Coininfo>
   });
 
   tickers=tickers.substring(0,tickers.length-3);
+
   setTicker(tickers);
+  
   async function getPrice(){
     await axios	
       .request({
@@ -99,7 +102,47 @@ function Coinlist(){
   const interval= useInterval(()=>{
     getPrice();
   },1000);
- 
+  useEffect(()=>{
+    setGuideState(3);
+  },[]);
+  const sortByVolume=(a,b)=>{
+    switch(guideState){
+      case 1:
+        if(isClicked){
+          return b.trade_price-a.trade_price;
+        }
+        else{
+          return a.trade_price-b.trade_price;
+        }
+      case 2:
+        if(isClicked){
+          return b.change_price-a.change_price;
+        }
+        else{
+          return a.change_price-b.change_price;
+        }
+      case 3:
+        if(isClicked){
+          return b.acc_trade_price_24h - a.acc_trade_price_24h;
+        }
+        else{
+          return a.acc_trade_price_24h - b.acc_trade_price_24h;
+        }
+    default:
+      break;
+    }
+  }
+
+  let func=sortByVolume;
+  filteredMarket = price.map(item2 => ({
+    ...item2,
+    korean_name: filteredMarket.find(item1 => item1.market === item2.market)?.korean_name
+  }));
+  filteredMarket=filteredMarket.sort(func);
+  const list=filteredMarket.map((c,index)=>{
+    return <Coininfo key={index} info={filteredMarket[index]} price={filteredMarket[index]}></Coininfo>
+  });
+  
   return (
     <ListBody>
       <div>
@@ -114,10 +157,20 @@ function Coinlist(){
         }}>BTC</UnitBtn>
       </div>
       <Guides>
-        <p>이름</p>
-        <p>현재가</p>
-        <p>전일대비</p>
-        <p>거래량</p>
+        <p >이름</p>
+        <p onClick={()=>{
+          setGuideState(1);
+          setIsClicked(!isClicked);
+        }
+        }>현재가</p>
+        <p onClick={()=>{
+          setGuideState(2);
+          setIsClicked(!isClicked);
+        }}>전일대비</p>
+        <p onClick={()=>{
+          setGuideState(3);
+          setIsClicked(!isClicked);
+        }}>거래량</p>
       </Guides>
       <CoinList>{list}</CoinList>
     </ListBody>

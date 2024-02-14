@@ -31,7 +31,6 @@ function Coininfo({info,price}){//코인 정보 한줄
     if(tardeVolume>=1000000){
       tardeVolume=Math.floor(price.acc_trade_price_24h/1000000);
     }
-    console.log(price);
     let change=`black`;
     switch(price.change){
       case `FALL`:
@@ -43,7 +42,6 @@ function Coininfo({info,price}){//코인 정보 한줄
       default:
         break;
     }
-    
     return(
       <List className="coinList" >
         <div>
@@ -54,7 +52,7 @@ function Coininfo({info,price}){//코인 정보 한줄
           <PriceDiv color={change}>{(price.change_price*100).toFixed(2)}</PriceDiv>
           <PriceDiv color={change}>{(price.signed_change_rate*100).toFixed(2)}%</PriceDiv>
         </div>
-        <div>{tardeVolume.toLocaleString()} 백만</div>
+        <div>{tardeVolume.toLocaleString()} {(tardeVolume>0)?`백만`:``}</div>
  
      </List>
     );
