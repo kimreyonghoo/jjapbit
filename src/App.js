@@ -30,13 +30,13 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/jjapbit/' element={
+          <Route  basename={process.env.PUBLIC_URL} path='/' element={
           <div>
             <Topbar></Topbar>
             <Coinlist></Coinlist>
           </div>
           }></Route>
-          <Route path='/jjapbit/:market' element={<CoinChart/>}/>
+          <Route path='/:market' element={<CoinChart/>}/>
         </Routes>
       </BrowserRouter>
     </div>
