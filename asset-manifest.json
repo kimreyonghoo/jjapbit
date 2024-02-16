@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/jjapbit/static/css/main.d7e9c54e.css",
-    "main.js": "/jjapbit/static/js/main.79de8f8b.js",
+    "main.js": "/jjapbit/static/js/main.ccdf7937.js",
     "static/js/787.ffd4d5d0.chunk.js": "/jjapbit/static/js/787.ffd4d5d0.chunk.js",
     "index.html": "/jjapbit/index.html",
     "main.d7e9c54e.css.map": "/jjapbit/static/css/main.d7e9c54e.css.map",
-    "main.79de8f8b.js.map": "/jjapbit/static/js/main.79de8f8b.js.map",
+    "main.ccdf7937.js.map": "/jjapbit/static/js/main.ccdf7937.js.map",
     "787.ffd4d5d0.chunk.js.map": "/jjapbit/static/js/787.ffd4d5d0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d7e9c54e.css",
-    "static/js/main.79de8f8b.js"
+    "static/js/main.ccdf7937.js"
   ]
 }
