@@ -3,9 +3,11 @@ import axios from 'axios';
 import { Router } from 'react-router-dom';
 import Coinlist from './Coinlist';
 import Topbar from './Topbar';
+import CoinChart from './CoinChart';
 import { useRecoilState } from 'recoil';
 import { marketState } from './atom';
 import { useEffect } from 'react';
+import { BrowserRouter,Route,Routes } from 'react-router-dom';
 
 function App() {
   const [info,setInfo]=useRecoilState(marketState);
@@ -26,8 +28,17 @@ function App() {
   
   return (
     <div className="App">
-      <Topbar></Topbar>
-      <Coinlist></Coinlist>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={
+          <div>
+            <Topbar></Topbar>
+            <Coinlist></Coinlist>
+          </div>
+          }></Route>
+          <Route path='/:market' element={<CoinChart/>}/>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

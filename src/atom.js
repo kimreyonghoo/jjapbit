@@ -24,3 +24,8 @@ export const tickerState=atom({
     key:`tickerState`,
     default:``,
 });
+
+export const infoState=atom({
+    key:`infoState`,
+    default:[``],
+});

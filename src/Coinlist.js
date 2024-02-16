@@ -4,23 +4,7 @@ import { useRecoilState,useRecoilValue } from "recoil";
 import { marketState, marketSelector,tickerState,searchState } from "./atom";
 import axios from "axios";
 import styled from 'styled-components'
-
-function useInterval(callback, delay) {
-  const savedCallback = useRef();
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-    if (delay !== null) {
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
-  }, [delay]);
-}
+import useInterval from "./hooks/useInterval";
 const ListBody=styled.div`
 display:flex;
 flex-direction:column;
@@ -83,16 +67,17 @@ function Coinlist(){
   setTicker(tickers);
   
   async function getPrice(){
-    await axios	
-      .request({
-        method: 'GET',
-        url: `https://api.upbit.com/v1/ticker?markets=`+`${ticker}` ,
-        header: {accept: 'application/json'}
-      })
+    try{
+      const response=await axios({ method: 'GET',
+      url: `https://api.upbit.com/v1/ticker?markets=`+`${ticker}` ,
+      header: {accept: 'application/json'}})
       .then((response)=>{
-          setPrice(response.data);
-        })
-      .catch((error)=>(console.log(error)))
+        setPrice(response.data);
+      })
+    }
+    catch(error){
+      (console.log(error))
+    }
   }
 
   useEffect(()=>{
@@ -116,10 +101,10 @@ function Coinlist(){
         }
       case 2:
         if(isClicked){
-          return b.change_price-a.change_price;
+          return b.signed_change_price-a.signed_change_price;
         }
         else{
-          return a.change_price-b.change_price;
+          return a.signed_change_price-b.signed_change_price;
         }
       case 3:
         if(isClicked){

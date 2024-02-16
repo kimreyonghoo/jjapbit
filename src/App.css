@@ -1,5 +1,8 @@
 .App {
+  display: flex;
   text-align: center;
+  justify-content: center;
+  background-color: #1a2a3e;
 }
 
 .App-logo {
@@ -8,6 +11,6 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #e93c3c;
 }
 

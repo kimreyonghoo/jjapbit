@@ -5,7 +5,7 @@ import { searchState } from "./atom";
 import styled from "styled-components";
 const Logo=styled.div`
 position:absolute;
-left:3px;
+left:20vw;
 color:white;
 font-size:20px;
 
