@@ -30,13 +30,13 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={
+          <Route path='/jjapbit/' element={
           <div>
             <Topbar></Topbar>
             <Coinlist></Coinlist>
           </div>
           }></Route>
-          <Route path='/:market' element={<CoinChart/>}/>
+          <Route path='/jjapbit/:market' element={<CoinChart/>}/>
         </Routes>
       </BrowserRouter>
     </div>
