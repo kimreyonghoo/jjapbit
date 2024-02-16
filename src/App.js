@@ -7,7 +7,7 @@ import CoinChart from './CoinChart';
 import { useRecoilState } from 'recoil';
 import { marketState } from './atom';
 import { useEffect } from 'react';
-import { HashRouter,Route,Routes } from 'react-router-dom';
+import { BrowserRouter,Route,Routes } from 'react-router-dom';
 
 function App() {
   const [info,setInfo]=useRecoilState(marketState);
@@ -28,9 +28,9 @@ function App() {
   
   return (
     <div className="App">
-      <HashRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Routes>
-          <Route  basename={process.env.PUBLIC_URL} path='/' element={
+          <Route path='/' element={
           <div>
             <Topbar></Topbar>
             <Coinlist></Coinlist>
@@ -38,7 +38,7 @@ function App() {
           }></Route>
           <Route path='/:market' element={<CoinChart/>}/>
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </div>
   );
 }
